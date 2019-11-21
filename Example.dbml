@@ -11,6 +11,44 @@
       <Column Name="state" Type="System.String" DbType="Char(2)" CanBeNull="true" />
       <Column Name="zip" Type="System.String" DbType="Char(5)" CanBeNull="true" />
       <Column Name="contract" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="authors_titleauthor" Member="titleauthor" ThisKey="au_id" OtherKey="au_id" Type="titleauthor" />
+    </Type>
+  </Table>
+  <Table Name="dbo.titleauthor" Member="titleauthor">
+    <Type Name="titleauthor">
+      <Column Name="au_id" Type="System.String" DbType="VarChar(11) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="title_id" Type="System.String" DbType="VarChar(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="au_ord" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="royaltyper" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="authors_titleauthor" Member="authors" ThisKey="au_id" OtherKey="au_id" Type="authors" IsForeignKey="true" />
+      <Association Name="titles_titleauthor" Member="titles" ThisKey="title_id" OtherKey="title_id" Type="titles" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.titles" Member="titles">
+    <Type Name="titles">
+      <Column Name="title_id" Type="System.String" DbType="VarChar(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="title" Type="System.String" DbType="VarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="Char(12) NOT NULL" CanBeNull="false" />
+      <Column Name="pub_id" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="price" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="advance" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="royalty" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ytd_sales" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="notes" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="pubdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="titles_titleauthor" Member="titleauthor" ThisKey="title_id" OtherKey="title_id" Type="titleauthor" />
+      <Association Name="titles_sales" Member="sales" ThisKey="title_id" OtherKey="title_id" Type="sales" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sales" Member="sales">
+    <Type Name="sales">
+      <Column Name="stor_id" Type="System.String" DbType="Char(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ord_num" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ord_date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="payterms" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="title_id" Type="System.String" DbType="VarChar(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="titles_sales" Member="titles" ThisKey="title_id" OtherKey="title_id" Type="titles" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

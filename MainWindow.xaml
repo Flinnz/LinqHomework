@@ -8,7 +8,35 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid HorizontalAlignment="Left" Height="336" VerticalAlignment="Top" Name="ExampleDataGrid"  Width="772" Margin="10,10,0,0"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="354,374,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <Button Content="Сохранить" HorizontalAlignment="Left" Margin="354,374,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <TabControl HorizontalAlignment="Left" Height="318" Margin="0,28,0,0" VerticalAlignment="Top" Width="213">
+            <TabItem Header="Найти">
+                <Grid Background="#FFE5E5E5" Margin="10,-2,-10,1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="53*"/>
+                    </Grid.RowDefinitions>
+                    <ComboBox Name="Filters" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="127"/>
+                    <TextBox Name="FilterText" HorizontalAlignment="Left" Height="24" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="187"/>
+                    <Button Content="Найти" HorizontalAlignment="Left" Margin="142,39,0,0" VerticalAlignment="Top" Width="55" Height="22" Click="Button_Click_1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Экспортировать в XML">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <TabControl Name="Tables"  HorizontalAlignment="Left" Height="318" Margin="218,28,0,0" VerticalAlignment="Top" Width="564" RenderTransformOrigin="-0.175,0.65" SelectionChanged="Tables_SelectionChanged">
+            <TabItem Header="Авторы" Height="22" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid Name="Authors"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Тайтлы">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid Name="Titles"/>
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
     </Grid>
 </Window>

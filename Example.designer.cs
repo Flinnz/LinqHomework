@@ -33,6 +33,15 @@ namespace LinqHomework
     partial void Insertauthors(authors instance);
     partial void Updateauthors(authors instance);
     partial void Deleteauthors(authors instance);
+    partial void Inserttitleauthor(titleauthor instance);
+    partial void Updatetitleauthor(titleauthor instance);
+    partial void Deletetitleauthor(titleauthor instance);
+    partial void Inserttitles(titles instance);
+    partial void Updatetitles(titles instance);
+    partial void Deletetitles(titles instance);
+    partial void Insertsales(sales instance);
+    partial void Updatesales(sales instance);
+    partial void Deletesales(sales instance);
     #endregion
 		
 		public ExampleDataContext() : 
@@ -72,6 +81,30 @@ namespace LinqHomework
 				return this.GetTable<authors>();
 			}
 		}
+		
+		public System.Data.Linq.Table<titleauthor> titleauthor
+		{
+			get
+			{
+				return this.GetTable<titleauthor>();
+			}
+		}
+		
+		public System.Data.Linq.Table<titles> titles
+		{
+			get
+			{
+				return this.GetTable<titles>();
+			}
+		}
+		
+		public System.Data.Linq.Table<sales> sales
+		{
+			get
+			{
+				return this.GetTable<sales>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.authors")]
@@ -97,6 +130,8 @@ namespace LinqHomework
 		private string _zip;
 		
 		private bool _contract;
+		
+		private EntitySet<titleauthor> _titleauthor;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -124,6 +159,7 @@ namespace LinqHomework
 		
 		public authors()
 		{
+			this._titleauthor = new EntitySet<titleauthor>(new Action<titleauthor>(this.attach_titleauthor), new Action<titleauthor>(this.detach_titleauthor));
 			OnCreated();
 		}
 		
@@ -303,6 +339,804 @@ namespace LinqHomework
 					this._contract = value;
 					this.SendPropertyChanged("contract");
 					this.OncontractChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="authors_titleauthor", Storage="_titleauthor", ThisKey="au_id", OtherKey="au_id")]
+		public EntitySet<titleauthor> titleauthor
+		{
+			get
+			{
+				return this._titleauthor;
+			}
+			set
+			{
+				this._titleauthor.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_titleauthor(titleauthor entity)
+		{
+			this.SendPropertyChanging();
+			entity.authors = this;
+		}
+		
+		private void detach_titleauthor(titleauthor entity)
+		{
+			this.SendPropertyChanging();
+			entity.authors = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.titleauthor")]
+	public partial class titleauthor : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _au_id;
+		
+		private string _title_id;
+		
+		private System.Nullable<byte> _au_ord;
+		
+		private System.Nullable<int> _royaltyper;
+		
+		private EntityRef<authors> _authors;
+		
+		private EntityRef<titles> _titles;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onau_idChanging(string value);
+    partial void Onau_idChanged();
+    partial void Ontitle_idChanging(string value);
+    partial void Ontitle_idChanged();
+    partial void Onau_ordChanging(System.Nullable<byte> value);
+    partial void Onau_ordChanged();
+    partial void OnroyaltyperChanging(System.Nullable<int> value);
+    partial void OnroyaltyperChanged();
+    #endregion
+		
+		public titleauthor()
+		{
+			this._authors = default(EntityRef<authors>);
+			this._titles = default(EntityRef<titles>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_au_id", DbType="VarChar(11) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string au_id
+		{
+			get
+			{
+				return this._au_id;
+			}
+			set
+			{
+				if ((this._au_id != value))
+				{
+					if (this._authors.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onau_idChanging(value);
+					this.SendPropertyChanging();
+					this._au_id = value;
+					this.SendPropertyChanged("au_id");
+					this.Onau_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title_id", DbType="VarChar(6) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string title_id
+		{
+			get
+			{
+				return this._title_id;
+			}
+			set
+			{
+				if ((this._title_id != value))
+				{
+					if (this._titles.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Ontitle_idChanging(value);
+					this.SendPropertyChanging();
+					this._title_id = value;
+					this.SendPropertyChanged("title_id");
+					this.Ontitle_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_au_ord", DbType="TinyInt")]
+		public System.Nullable<byte> au_ord
+		{
+			get
+			{
+				return this._au_ord;
+			}
+			set
+			{
+				if ((this._au_ord != value))
+				{
+					this.Onau_ordChanging(value);
+					this.SendPropertyChanging();
+					this._au_ord = value;
+					this.SendPropertyChanged("au_ord");
+					this.Onau_ordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_royaltyper", DbType="Int")]
+		public System.Nullable<int> royaltyper
+		{
+			get
+			{
+				return this._royaltyper;
+			}
+			set
+			{
+				if ((this._royaltyper != value))
+				{
+					this.OnroyaltyperChanging(value);
+					this.SendPropertyChanging();
+					this._royaltyper = value;
+					this.SendPropertyChanged("royaltyper");
+					this.OnroyaltyperChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="authors_titleauthor", Storage="_authors", ThisKey="au_id", OtherKey="au_id", IsForeignKey=true)]
+		public authors authors
+		{
+			get
+			{
+				return this._authors.Entity;
+			}
+			set
+			{
+				authors previousValue = this._authors.Entity;
+				if (((previousValue != value) 
+							|| (this._authors.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._authors.Entity = null;
+						previousValue.titleauthor.Remove(this);
+					}
+					this._authors.Entity = value;
+					if ((value != null))
+					{
+						value.titleauthor.Add(this);
+						this._au_id = value.au_id;
+					}
+					else
+					{
+						this._au_id = default(string);
+					}
+					this.SendPropertyChanged("authors");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="titles_titleauthor", Storage="_titles", ThisKey="title_id", OtherKey="title_id", IsForeignKey=true)]
+		public titles titles
+		{
+			get
+			{
+				return this._titles.Entity;
+			}
+			set
+			{
+				titles previousValue = this._titles.Entity;
+				if (((previousValue != value) 
+							|| (this._titles.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._titles.Entity = null;
+						previousValue.titleauthor.Remove(this);
+					}
+					this._titles.Entity = value;
+					if ((value != null))
+					{
+						value.titleauthor.Add(this);
+						this._title_id = value.title_id;
+					}
+					else
+					{
+						this._title_id = default(string);
+					}
+					this.SendPropertyChanged("titles");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.titles")]
+	public partial class titles : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _title_id;
+		
+		private string _title;
+		
+		private string _type;
+		
+		private string _pub_id;
+		
+		private System.Nullable<decimal> _price;
+		
+		private System.Nullable<decimal> _advance;
+		
+		private System.Nullable<int> _royalty;
+		
+		private System.Nullable<int> _ytd_sales;
+		
+		private string _notes;
+		
+		private System.DateTime _pubdate;
+		
+		private EntitySet<titleauthor> _titleauthor;
+		
+		private EntitySet<sales> _sales;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Ontitle_idChanging(string value);
+    partial void Ontitle_idChanged();
+    partial void OntitleChanging(string value);
+    partial void OntitleChanged();
+    partial void OntypeChanging(string value);
+    partial void OntypeChanged();
+    partial void Onpub_idChanging(string value);
+    partial void Onpub_idChanged();
+    partial void OnpriceChanging(System.Nullable<decimal> value);
+    partial void OnpriceChanged();
+    partial void OnadvanceChanging(System.Nullable<decimal> value);
+    partial void OnadvanceChanged();
+    partial void OnroyaltyChanging(System.Nullable<int> value);
+    partial void OnroyaltyChanged();
+    partial void Onytd_salesChanging(System.Nullable<int> value);
+    partial void Onytd_salesChanged();
+    partial void OnnotesChanging(string value);
+    partial void OnnotesChanged();
+    partial void OnpubdateChanging(System.DateTime value);
+    partial void OnpubdateChanged();
+    #endregion
+		
+		public titles()
+		{
+			this._titleauthor = new EntitySet<titleauthor>(new Action<titleauthor>(this.attach_titleauthor), new Action<titleauthor>(this.detach_titleauthor));
+			this._sales = new EntitySet<sales>(new Action<sales>(this.attach_sales), new Action<sales>(this.detach_sales));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title_id", DbType="VarChar(6) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string title_id
+		{
+			get
+			{
+				return this._title_id;
+			}
+			set
+			{
+				if ((this._title_id != value))
+				{
+					this.Ontitle_idChanging(value);
+					this.SendPropertyChanging();
+					this._title_id = value;
+					this.SendPropertyChanged("title_id");
+					this.Ontitle_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title", DbType="VarChar(80) NOT NULL", CanBeNull=false)]
+		public string title
+		{
+			get
+			{
+				return this._title;
+			}
+			set
+			{
+				if ((this._title != value))
+				{
+					this.OntitleChanging(value);
+					this.SendPropertyChanging();
+					this._title = value;
+					this.SendPropertyChanged("title");
+					this.OntitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type", DbType="Char(12) NOT NULL", CanBeNull=false)]
+		public string type
+		{
+			get
+			{
+				return this._type;
+			}
+			set
+			{
+				if ((this._type != value))
+				{
+					this.OntypeChanging(value);
+					this.SendPropertyChanging();
+					this._type = value;
+					this.SendPropertyChanged("type");
+					this.OntypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pub_id", DbType="Char(4)")]
+		public string pub_id
+		{
+			get
+			{
+				return this._pub_id;
+			}
+			set
+			{
+				if ((this._pub_id != value))
+				{
+					this.Onpub_idChanging(value);
+					this.SendPropertyChanging();
+					this._pub_id = value;
+					this.SendPropertyChanged("pub_id");
+					this.Onpub_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price", DbType="Money")]
+		public System.Nullable<decimal> price
+		{
+			get
+			{
+				return this._price;
+			}
+			set
+			{
+				if ((this._price != value))
+				{
+					this.OnpriceChanging(value);
+					this.SendPropertyChanging();
+					this._price = value;
+					this.SendPropertyChanged("price");
+					this.OnpriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_advance", DbType="Money")]
+		public System.Nullable<decimal> advance
+		{
+			get
+			{
+				return this._advance;
+			}
+			set
+			{
+				if ((this._advance != value))
+				{
+					this.OnadvanceChanging(value);
+					this.SendPropertyChanging();
+					this._advance = value;
+					this.SendPropertyChanged("advance");
+					this.OnadvanceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_royalty", DbType="Int")]
+		public System.Nullable<int> royalty
+		{
+			get
+			{
+				return this._royalty;
+			}
+			set
+			{
+				if ((this._royalty != value))
+				{
+					this.OnroyaltyChanging(value);
+					this.SendPropertyChanging();
+					this._royalty = value;
+					this.SendPropertyChanged("royalty");
+					this.OnroyaltyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ytd_sales", DbType="Int")]
+		public System.Nullable<int> ytd_sales
+		{
+			get
+			{
+				return this._ytd_sales;
+			}
+			set
+			{
+				if ((this._ytd_sales != value))
+				{
+					this.Onytd_salesChanging(value);
+					this.SendPropertyChanging();
+					this._ytd_sales = value;
+					this.SendPropertyChanged("ytd_sales");
+					this.Onytd_salesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_notes", DbType="VarChar(200)")]
+		public string notes
+		{
+			get
+			{
+				return this._notes;
+			}
+			set
+			{
+				if ((this._notes != value))
+				{
+					this.OnnotesChanging(value);
+					this.SendPropertyChanging();
+					this._notes = value;
+					this.SendPropertyChanged("notes");
+					this.OnnotesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pubdate", DbType="DateTime NOT NULL")]
+		public System.DateTime pubdate
+		{
+			get
+			{
+				return this._pubdate;
+			}
+			set
+			{
+				if ((this._pubdate != value))
+				{
+					this.OnpubdateChanging(value);
+					this.SendPropertyChanging();
+					this._pubdate = value;
+					this.SendPropertyChanged("pubdate");
+					this.OnpubdateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="titles_titleauthor", Storage="_titleauthor", ThisKey="title_id", OtherKey="title_id")]
+		public EntitySet<titleauthor> titleauthor
+		{
+			get
+			{
+				return this._titleauthor;
+			}
+			set
+			{
+				this._titleauthor.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="titles_sales", Storage="_sales", ThisKey="title_id", OtherKey="title_id")]
+		public EntitySet<sales> sales
+		{
+			get
+			{
+				return this._sales;
+			}
+			set
+			{
+				this._sales.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_titleauthor(titleauthor entity)
+		{
+			this.SendPropertyChanging();
+			entity.titles = this;
+		}
+		
+		private void detach_titleauthor(titleauthor entity)
+		{
+			this.SendPropertyChanging();
+			entity.titles = null;
+		}
+		
+		private void attach_sales(sales entity)
+		{
+			this.SendPropertyChanging();
+			entity.titles = this;
+		}
+		
+		private void detach_sales(sales entity)
+		{
+			this.SendPropertyChanging();
+			entity.titles = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.sales")]
+	public partial class sales : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _stor_id;
+		
+		private string _ord_num;
+		
+		private System.DateTime _ord_date;
+		
+		private short _qty;
+		
+		private string _payterms;
+		
+		private string _title_id;
+		
+		private EntityRef<titles> _titles;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onstor_idChanging(string value);
+    partial void Onstor_idChanged();
+    partial void Onord_numChanging(string value);
+    partial void Onord_numChanged();
+    partial void Onord_dateChanging(System.DateTime value);
+    partial void Onord_dateChanged();
+    partial void OnqtyChanging(short value);
+    partial void OnqtyChanged();
+    partial void OnpaytermsChanging(string value);
+    partial void OnpaytermsChanged();
+    partial void Ontitle_idChanging(string value);
+    partial void Ontitle_idChanged();
+    #endregion
+		
+		public sales()
+		{
+			this._titles = default(EntityRef<titles>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_stor_id", DbType="Char(4) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string stor_id
+		{
+			get
+			{
+				return this._stor_id;
+			}
+			set
+			{
+				if ((this._stor_id != value))
+				{
+					this.Onstor_idChanging(value);
+					this.SendPropertyChanging();
+					this._stor_id = value;
+					this.SendPropertyChanged("stor_id");
+					this.Onstor_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ord_num", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string ord_num
+		{
+			get
+			{
+				return this._ord_num;
+			}
+			set
+			{
+				if ((this._ord_num != value))
+				{
+					this.Onord_numChanging(value);
+					this.SendPropertyChanging();
+					this._ord_num = value;
+					this.SendPropertyChanged("ord_num");
+					this.Onord_numChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ord_date", DbType="DateTime NOT NULL")]
+		public System.DateTime ord_date
+		{
+			get
+			{
+				return this._ord_date;
+			}
+			set
+			{
+				if ((this._ord_date != value))
+				{
+					this.Onord_dateChanging(value);
+					this.SendPropertyChanging();
+					this._ord_date = value;
+					this.SendPropertyChanged("ord_date");
+					this.Onord_dateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="SmallInt NOT NULL")]
+		public short qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_payterms", DbType="VarChar(12) NOT NULL", CanBeNull=false)]
+		public string payterms
+		{
+			get
+			{
+				return this._payterms;
+			}
+			set
+			{
+				if ((this._payterms != value))
+				{
+					this.OnpaytermsChanging(value);
+					this.SendPropertyChanging();
+					this._payterms = value;
+					this.SendPropertyChanged("payterms");
+					this.OnpaytermsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title_id", DbType="VarChar(6) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string title_id
+		{
+			get
+			{
+				return this._title_id;
+			}
+			set
+			{
+				if ((this._title_id != value))
+				{
+					if (this._titles.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Ontitle_idChanging(value);
+					this.SendPropertyChanging();
+					this._title_id = value;
+					this.SendPropertyChanged("title_id");
+					this.Ontitle_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="titles_sales", Storage="_titles", ThisKey="title_id", OtherKey="title_id", IsForeignKey=true)]
+		public titles titles
+		{
+			get
+			{
+				return this._titles.Entity;
+			}
+			set
+			{
+				titles previousValue = this._titles.Entity;
+				if (((previousValue != value) 
+							|| (this._titles.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._titles.Entity = null;
+						previousValue.sales.Remove(this);
+					}
+					this._titles.Entity = value;
+					if ((value != null))
+					{
+						value.sales.Add(this);
+						this._title_id = value.title_id;
+					}
+					else
+					{
+						this._title_id = default(string);
+					}
+					this.SendPropertyChanged("titles");
 				}
 			}
 		}
