@@ -15,6 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Linq;
 using System.Reflection;
+using System.Xml.Linq;
+using System.Xml;
+using System.IO;
 
 namespace LinqHomework
 {
@@ -139,6 +142,33 @@ namespace LinqHomework
                 {
                     Filters.ItemsSource = filters[GetTabTableName(tab)];
                 }
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var xel = new XElement("Authors",
+                example
+                    .authors
+                    .Select(x =>
+                        new XElement("Author",
+                            new XElement(nameof(x.au_id), x.au_id),
+                            new XElement(nameof(x.au_fname), x.au_fname),
+                            new XElement(nameof(x.au_lname), x.au_lname),
+                            new XElement(nameof(x.city), x.city),
+                            new XElement(nameof(x.contract), x.contract),
+                            new XElement(nameof(x.phone), x.phone),
+                            new XElement(nameof(x.state), x.state),
+                            new XElement(nameof(x.titleauthor), x.titleauthor),
+                            new XElement(nameof(x.zip), x.zip),
+                            new XElement(nameof(x.address), x.address)
+                                    )
+                            )
+            );
+            using (var io = new StreamWriter("authors.xml"))
+            using (var xmlWriter = XmlWriter.Create(io, new XmlWriterSettings()))
+            {
+                xel.WriteTo(xmlWriter);
             }
         }
     }

@@ -6,9 +6,19 @@
         xmlns:local="clr-namespace:LinqHomework"
         xmlns:SqlClient="clr-namespace:System.Data.SqlClient;assembly=System.Data" x:Class="LinqHomework.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" UseLayoutRounding="True">
+
     <Grid>
-        <Button Content="Сохранить" HorizontalAlignment="Left" Margin="354,374,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="28*"/>
+            <ColumnDefinition Width="71*"/>
+        </Grid.ColumnDefinitions>
+        <Menu BorderBrush="Gray" BorderThickness="1" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <MenuItem Header="Средства">
+                <MenuItem Header="Подключение к Деду"/>
+            </MenuItem>
+        </Menu>
+        <Button Content="Сохранить" HorizontalAlignment="Left" Margin="130,374,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" Grid.Column="1"/>
         <TabControl HorizontalAlignment="Left" Height="318" Margin="0,28,0,0" VerticalAlignment="Top" Width="213">
             <TabItem Header="Найти">
                 <Grid Background="#FFE5E5E5" Margin="10,-2,-10,1">
@@ -22,10 +32,12 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Экспортировать в XML">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="Экспортировать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="187" Click="Button_Click_2"/>
+                </Grid>
             </TabItem>
         </TabControl>
-        <TabControl Name="Tables"  HorizontalAlignment="Left" Height="318" Margin="218,28,0,0" VerticalAlignment="Top" Width="564" RenderTransformOrigin="-0.175,0.65" SelectionChanged="Tables_SelectionChanged">
+        <TabControl Name="Tables"  HorizontalAlignment="Left" Height="318" Margin="218,28,0,0" VerticalAlignment="Top" Width="564" RenderTransformOrigin="-0.175,0.65" SelectionChanged="Tables_SelectionChanged" Grid.ColumnSpan="2">
             <TabItem Header="Авторы" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid Name="Authors"/>
@@ -36,7 +48,7 @@
                     <DataGrid Name="Titles"/>
                 </Grid>
             </TabItem>
-            
+
         </TabControl>
     </Grid>
 </Window>
